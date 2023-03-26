@@ -29,14 +29,16 @@ def init():
 
 
 def cat_file(*args):
-    file = None
-    if len(args) < 2:
-        file = args[0]
-    if args[0] == "-p":
-        file = args[1]
-    folder, file = file[:2], file[2:]
-    with open(f".git\objects\{folder}\{file}", "rb") as f:
-        sys.stdout.write(zlib.decompress(f.read()).decode("utf-8")[8:])
+    _mode, hash = args
+    hash_lead = hash[0:2]
+    hash_tail = hash[2:]
+    content = open(".git/objects/{}/{}".format(hash_lead, hash_tail), "rb")
+    content = content.read()
+    decompressed = zlib.decompress(content)
+    decompressed = decompressed.decode("utf-8")
+    decompressed = decompressed[8:]
+
+    sys.stdout.write(decompressed)
 
 if __name__ == "__main__":
     main()
