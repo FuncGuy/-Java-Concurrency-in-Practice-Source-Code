@@ -35,7 +35,7 @@ def cat_file(*args):
     if args[0] == "-p":
         file = args[1]
     folder, file = file[:2], file[2:]
-    with open(f".git\objects\{folder}/{file}", "rb") as f:
+    with open(f".git\objects\{folder}\{file}", "rb") as f:
         sys.stdout.write(zlib.decompress(f.read()).decode("utf-8")[8:])
 
 if __name__ == "__main__":
